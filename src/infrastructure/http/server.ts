@@ -3,43 +3,58 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import passport from 'passport';
 import { env } from '../config/env';
+import { configurePassport } from '../config/passport';
+import { createRouter } from './routes';
+import { IUserRepository } from '../../domain/repositories/IUserRepository';
 
-const app = express();
+export const createServer = (dependencies: {
+  userRepository: IUserRepository;
+}) => {
+  const app = express();
 
-// Middleware básico
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
+  // Middleware básico
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(passport.initialize());
 
-// Configuración de Swagger
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Tickets API',
-      version: '1.0.0',
-      description: 'API for event ticket management',
-    },
-    servers: [
-      {
-        url: `http://localhost:${env.port}`,
+  // Configuración de Swagger
+  const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Tickets API',
+        version: '1.0.0',
+        description: 'API for event ticket management',
       },
-    ],
-  },
-  apis: ['./src/infrastructure/http/routes/*.ts'],
+      servers: [
+        {
+          url: `${env.apiUrl}`,
+        },
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
+        },
+      },
+    
+    },
+    apis: ['./src/infrastructure/http/routes/*.ts'],
+  };
+
+  const swaggerDocs = swaggerJsDoc(swaggerOptions);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+  // Configurar Passport
+  configurePassport(dependencies.userRepository);
+
+  // Montar el router principal
+  app.use('/api', createRouter(dependencies));
+
+  return app;
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-// Base route
-app.get('/', (req, res) => {
-  res.send('Tickets API is running!');
-});
-
-export const server = app.listen(env.port, () => {
-  console.log(`Server running on port ${env.port}`);
-  console.log(`Documentation available at http://localhost:${env.port}/api-docs`);
-});
-
-export default app; 
+ 
