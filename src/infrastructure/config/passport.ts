@@ -41,7 +41,7 @@ export const configurePassport = (userRepository: IUserRepository) => {
       {
         clientID: env.googleClientId,
         clientSecret: env.googleClientSecret,
-        callbackURL: `${env.apiUrl}/auth/google/callback`,
+        callbackURL: `${env.backendUrl}/api/auth/google/callback`,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {

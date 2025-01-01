@@ -28,7 +28,7 @@ export const createServer = (dependencies: {
       },
       servers: [
         {
-          url: `${env.apiUrl}`,
+          url: `${env.backendUrl}/api`,
         },
       ],
       components: {
@@ -46,7 +46,7 @@ export const createServer = (dependencies: {
   };
 
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
-  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   // Configurar Passport
   configurePassport(dependencies.userRepository);

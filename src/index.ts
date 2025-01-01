@@ -16,8 +16,8 @@ const startServer = async () => {
     const app = createServer({ userRepository });
 
     const server = app.listen(env.port, () => {
-      console.log('\x1b[32m%s\x1b[0m', ` Servidor corriendo en ${env.apiUrl}`);
-      console.log('\x1b[36m%s\x1b[0m', `Documentación disponible en ${env.apiUrl}/docs`);
+      console.log('\x1b[32m%s\x1b[0m', ` Servidor corriendo en ${env.backendUrl}`);
+      console.log('\x1b[36m%s\x1b[0m', `Documentación disponible en ${env.backendUrl}/api-docs`);
     });
 
     // Manejo de señales de terminación

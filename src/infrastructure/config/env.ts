@@ -6,7 +6,7 @@ export const env = {
   port: process.env.PORT || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
   jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
-  apiUrl: process.env.API_URL || 'http://localhost:3000',
+  backendUrl: process.env.BACKEND_URL || 'http://localhost:3000',
   googleClientId: process.env.GOOGLE_CLIENT_ID || '',
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3001',
