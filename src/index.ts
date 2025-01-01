@@ -17,7 +17,7 @@ const startServer = async () => {
 
     const server = app.listen(env.port, () => {
       console.log('\x1b[32m%s\x1b[0m', ` Servidor corriendo en ${env.apiUrl}`);
-      console.log('\x1b[36m%s\x1b[0m', `Documentación disponible en http://localhost:${env.port}/api-docs`);
+      console.log('\x1b[36m%s\x1b[0m', `Documentación disponible en ${env.apiUrl}/docs`);
     });
 
     // Manejo de señales de terminación

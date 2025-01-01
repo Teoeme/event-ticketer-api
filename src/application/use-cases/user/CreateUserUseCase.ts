@@ -1,6 +1,7 @@
 import { User } from '../../../domain/entities/User';
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import { AuthProvider } from '../../../domain/value-objects/AuthProvider';
+import { UserRole } from '../../../domain/value-objects/UserRole';
 import { CreateUserDTO } from '../../dtos/UserDTO';
 import bcrypt from 'bcrypt';
 export class CreateUserUseCase {
@@ -16,6 +17,7 @@ export class CreateUserUseCase {
     const user: Omit<User, '_id'> = {
         authProvider:AuthProvider.LOCAL,
         ...userData,
+        role:  UserRole[userData.role] || UserRole.OPERATOR,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date(),
