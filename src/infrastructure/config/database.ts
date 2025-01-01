@@ -3,7 +3,12 @@ import { env } from './env';
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    await mongoose.connect(`${env.mongoUri}/${env.mongoDbName}`);
+    console.log(env.mongoUri, env.mongoDbName);
+    await mongoose.connect(`${env.mongoUri}`,
+      {
+        dbName: env.mongoDbName,
+      }
+    );
     console.log('\x1b[32m%s\x1b[0m', 'Conectado a MongoDB');
   } catch (error) {
     console.error('\x1b[31m%s\x1b[0m', 'Error al conectar a MongoDB:', error);
