@@ -1,5 +1,7 @@
 import { User } from '../../../domain/entities/User';
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
+import bcrypt from 'bcrypt';
+
 
 export class UpdateUserUseCase {
   constructor(private dependencies: { userRepository: IUserRepository }) {}
@@ -9,6 +11,10 @@ export class UpdateUserUseCase {
     
     if (!existingUser) {
       throw new Error('Usuario no encontrado, no se puede actualizar');
+    }
+
+    if(userData.password){
+      userData.password = await bcrypt.hash(userData.password, 10);
     }
 
     const updatedUser = {

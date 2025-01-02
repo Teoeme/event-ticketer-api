@@ -7,9 +7,15 @@ import { DeleteUserUseCase } from "../../../application/use-cases/user/DeleteUse
 import { authenticate, authorize } from "../middlewares/auth.middleware";
 import { UserRole } from "../../../domain/value-objects/UserRole";
 import { httpResponses } from "../responses/httpResponse";
+import { RecoverPasswordUseCase } from "../../../application/use-cases/user/RecoverPasswordUseCase";
+import { IEmailService } from "../../../domain/services/IEmailService";
+import { externalServiceLimiter } from "../middlewares/rateLimiter.middleware";
+import { ITokenRepository } from "../../../domain/repositories/ITokenRepository";
 
 export const createUserRouter = (dependencies: {
   userRepository: IUserRepository;
+  emailService: IEmailService;
+  tokenRepository: ITokenRepository;
 }) => {
   const router = Router();
   
@@ -25,6 +31,12 @@ export const createUserRouter = (dependencies: {
   });
   const deleteUserUseCase = new DeleteUserUseCase({
     userRepository: dependencies.userRepository
+  });
+
+  const recoverPasswordUseCase = new RecoverPasswordUseCase({
+    emailService: dependencies.emailService,
+    userRepository: dependencies.userRepository,
+    tokenRepository: dependencies.tokenRepository
   });
 
   /**
@@ -183,6 +195,36 @@ export const createUserRouter = (dependencies: {
       }
     }
   );
+
+
+  /**
+   * @openapi
+   * /users/recover-password/{userEmail}:
+   *   post:
+   *     tags:
+   *       - Users
+   *     summary: Recover password
+   *     parameters:
+   *       - in: path
+   *         name: userEmail
+   *         required: true
+   *         schema:
+   *           type: string
+   */
+  router.post('/recover-password/:userEmail',
+    externalServiceLimiter,
+    // authenticate,
+    // authorize([UserRole.ADMIN]),
+    async (req, res) => {
+    try {
+      await recoverPasswordUseCase.execute(req.params.userEmail);
+      httpResponses.ok(res,'Email de recuperacion de contraseña enviado correctamente. Verifíque su correo electrónico, recuerde revisar la carpeta de spam.')
+    } catch (error:any) {
+      console.log(error,'Error al enviar email de recuperacion de contraseña');
+      httpResponses.serverError(res,{message:error.message})
+    }
+  }
+);
 
   return router;
 };

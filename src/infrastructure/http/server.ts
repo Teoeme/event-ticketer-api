@@ -6,13 +6,20 @@ import { env } from '../config/env';
 import { configurePassport } from '../config/passport';
 import { createRouter } from './routes';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
+import { IEmailService } from '../../domain/services/IEmailService';
+import { helmetMiddleware, speedLimiter } from './middlewares/security.middleware';
+import { ITokenRepository } from '../../domain/repositories/ITokenRepository';
 
 export const createServer = (dependencies: {
   userRepository: IUserRepository;
+  emailService: IEmailService;
+  tokenRepository: ITokenRepository;
 }) => {
   const app = express();
 
-  // Middleware básico
+  app.use(helmetMiddleware);
+  app.use(speedLimiter);
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(passport.initialize());
@@ -48,10 +55,8 @@ export const createServer = (dependencies: {
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-  // Configurar Passport
   configurePassport(dependencies.userRepository);
 
-  // Montar el router principal
   app.use('/api', createRouter(dependencies));
 
   return app;

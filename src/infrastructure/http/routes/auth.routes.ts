@@ -5,6 +5,7 @@ import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import { env } from '../../config/env';
 import { UserRole } from '../../../domain/value-objects/UserRole';
 import { AuthProvider } from '../../../domain/value-objects/AuthProvider';
+import { strictLimiter } from '../middlewares/rateLimiter.middleware';
 
 declare global {
   namespace Express {
@@ -44,6 +45,7 @@ export const createAuthRouter = (userRepository: IUserRepository) => {
    *                 type: string
    */
   router.post('/login', 
+    strictLimiter,
     passport.authenticate('local', { 
         session: false,
     }),

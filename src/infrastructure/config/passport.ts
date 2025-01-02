@@ -50,18 +50,6 @@ export const configurePassport = (userRepository: IUserRepository) => {
             done(null, false);
             return
         }
-        
-        //   if (!user) {
-        //     user = await userRepository.create({
-        //       name: profile.displayName,
-        //       email: profile.emails![0].value,
-        //       authProvider: AuthProvider.GOOGLE,
-        //       role: UserRole.OPERATOR,
-        //       isActive: true,
-        //       createdAt: new Date(),
-        //       updatedAt: new Date()
-        //     });
-        //   }
 
           return done(null, user);
         } catch (error) {
