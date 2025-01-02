@@ -40,11 +40,11 @@ export const httpResponses = {
   notFound: (res: Response, message?: string) => 
     sendResponse(res, { statusCode: 404, error: message || 'Not Found',ok:false }),
 
-  serverError: (res: Response, error?: any) => 
+  serverError: (res: Response, message?: string) => 
     sendResponse(res, { 
       statusCode: 500, 
       error: 'Error del servidor',
-      message: error?.message ,
+      message: message || 'Error del servidor',
       ok:false
     }),
 }; 

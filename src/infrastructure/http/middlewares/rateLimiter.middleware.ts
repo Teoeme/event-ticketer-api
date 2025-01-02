@@ -14,7 +14,7 @@ export const basicLimiter = rateLimit({
 // Limiter específico para endpoints sensibles (email, auth, etc)
 export const strictLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, 
-  max: 8, 
+  max: 5, 
   message: {
     success: false,
     error: 'Límite de intentos excedido, por favor espere una hora'

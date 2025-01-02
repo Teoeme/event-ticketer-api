@@ -12,7 +12,7 @@ export const createRouter = (dependencies: {
 }) => {
   const router = Router();
 
-  router.use('/auth', createAuthRouter(dependencies.userRepository));
+  router.use('/auth', createAuthRouter(dependencies));
   router.use('/users', createUserRouter(dependencies));
   
   router.get('/health', (req, res) => {

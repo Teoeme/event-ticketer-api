@@ -1,4 +1,4 @@
-# event-ticketer-api
+# Event-Ticketer-Api
 
 
 ## Instalación
@@ -11,8 +11,10 @@
 ## Configuración de nodemailer
 
 Para el servicio de recuperacion de contraseña de los usuarios, debe proveer un servicio de email mediante las credenciales en el archivo `.env`.
-Envíe una solicitud a la ruta `/users/recover-password/{userEmail}` para enviar un email de recuperacion de contraseña al usuario.
-Si se hace una solicitud de recuperacion de contraseña, se enviara un email al usuario con un enlace para restablecer su contraseña. 
+Envíe una solicitud a la ruta `/auth/recover-password/{userEmail}` para enviar un email de recuperacion de contraseña al usuario.
+
 Este enlace contiene un token de autenticación que se puede usar para restablecer la contraseña del usuario.
+
 El enlace dirige a la ruta `/reset-password` en el frontend, donde se puede restablecer la contraseña del usuario.
-Asegurese de que el frontend provea la ruta `/reset-password` y utilice el token enviado por parametro en la url para restablecer la contraseña del usuario. La validez predeterminada del token es de 1 hora, aunque puede modificarla en el `.env`.
+Asegurese de que el frontend provea la ruta `/reset-password` y utilice el token enviado por parametro en la url para restablecer la 
+contraseña del usuario. La validez predeterminada del token es de 1 hora, aunque puede modificarla en el `.env`.
