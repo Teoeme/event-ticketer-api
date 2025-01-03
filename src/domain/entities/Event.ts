@@ -1,14 +1,14 @@
 import { TicketTemplate } from "./TicketTemplate";
 
 export interface Event {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   date: Date;
-  startTime: string;
-  endTime: string;
+  startTime: Date; //timestamps
+  endTime: Date; //timestamps
   location: string;
   capacity: number;
-  ticketTemplates: TicketTemplate[];
+  ticketTemplates: (TicketTemplate | string)[];
   isActive: boolean;
 } 

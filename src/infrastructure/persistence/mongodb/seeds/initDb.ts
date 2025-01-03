@@ -23,7 +23,6 @@ export const initializeDatabase = async (userRepository: MongoUserRepository) =>
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      console.log('Super Admin user creado');
     }
   } catch (error) {
     console.error('Error inicializando la base de datos:', error);

@@ -7,6 +7,7 @@ export interface CreateUserDTO {
   password?: string;
   role: UserRole;
   authProvider?: AuthProvider;
+  isActive?: boolean;
 }
 
 export interface UserResponseDTO {

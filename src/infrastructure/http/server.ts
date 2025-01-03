@@ -9,11 +9,15 @@ import { IUserRepository } from '../../domain/repositories/IUserRepository';
 import { IEmailService } from '../../domain/services/IEmailService';
 import { helmetMiddleware, speedLimiter } from './middlewares/security.middleware';
 import { ITokenRepository } from '../../domain/repositories/ITokenRepository';
+import { IEventRepository } from '../../domain/repositories/IEventRepository';
+import { ITicketTemplateRepository } from '../../domain/repositories/ITicketTemplateRepository';
 
 export const createServer = (dependencies: {
   userRepository: IUserRepository;
   emailService: IEmailService;
   tokenRepository: ITokenRepository;
+  eventRepository: IEventRepository;
+  ticketTemplateRepository: ITicketTemplateRepository;
 }) => {
   const app = express();
 

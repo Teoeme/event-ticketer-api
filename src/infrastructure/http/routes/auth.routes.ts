@@ -114,7 +114,6 @@ export const createAuthRouter = (dependencies: {
         );
         res.redirect(`${env.frontendUrl}/auth/callback?token=${token}`);
       } catch (error) {
-        console.log(error,'error');
         res.redirect('/login');
       }
     }

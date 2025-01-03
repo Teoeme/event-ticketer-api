@@ -11,4 +11,5 @@ export interface Ticket {
   issueDate: Date;
   status: TicketStatus;
   entry?: Entry;  // Relación opcional con entrada
+  eventId: string;
 } 

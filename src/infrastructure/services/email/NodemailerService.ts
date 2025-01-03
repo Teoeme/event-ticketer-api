@@ -25,7 +25,6 @@ export class NodemailerService implements IEmailService {
         text: options.text,
         html: options.html,
       });
-      console.log('Email enviado correctamente desde  nodemailer!');
     } catch (error:any) {
       throw new Error(`Error al enviar el email: ${error.message}`);
     }

@@ -1,6 +1,5 @@
 export interface TicketTemplate {
   id: string;
-  eventId: string;
   name: string;
   description: string;
   price: number;

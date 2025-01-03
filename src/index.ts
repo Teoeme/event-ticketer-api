@@ -1,6 +1,8 @@
 import { connectDatabase } from './infrastructure/config/database';
 import { env } from './infrastructure/config/env';
 import { createServer } from './infrastructure/http/server';
+import { MongoEventRepository } from './infrastructure/persistence/mongodb/repositories/MongoEventRepository';
+import { MongoTicketTemplateRepository } from './infrastructure/persistence/mongodb/repositories/MongoTicketTemplate';
 import { MongoTokenRepository } from './infrastructure/persistence/mongodb/repositories/MongoTokenRepository';
 import { MongoUserRepository } from './infrastructure/persistence/mongodb/repositories/MongoUserRepository';
 import { initializeDatabase } from './infrastructure/persistence/mongodb/seeds/initDb';
@@ -13,10 +15,11 @@ const startServer = async () => {
     const userRepository = new MongoUserRepository(); 
     const emailService = new NodemailerService();
     const tokenRepository = new MongoTokenRepository();
-
+    const eventRepository = new MongoEventRepository();
+    const ticketTemplateRepository = new MongoTicketTemplateRepository();
     await initializeDatabase(userRepository);
 
-    const app = createServer({ userRepository, emailService,tokenRepository });
+    const app = createServer({ userRepository, emailService,tokenRepository ,eventRepository,ticketTemplateRepository});
 
     const server = app.listen(env.port, () => {
       console.log('\x1b[32m%s\x1b[0m', ` Servidor corriendo en ${env.backendUrl}`);

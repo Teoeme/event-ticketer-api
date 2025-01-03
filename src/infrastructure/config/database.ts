@@ -3,7 +3,6 @@ import { env } from './env';
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    console.log(env.mongoUri, env.mongoDbName);
     await mongoose.connect(`${env.mongoUri}`,
       {
         dbName: env.mongoDbName,
