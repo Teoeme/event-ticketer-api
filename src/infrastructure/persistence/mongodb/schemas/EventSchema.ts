@@ -10,6 +10,7 @@ const EventSchema = new mongoose.Schema({
     capacity: { type: Number, required: true },
     ticketTemplates: { type: [mongoose.Schema.Types.ObjectId], ref: 'TicketTemplate', required: true },
     isActive: { type: Boolean, required: true, default: true },
+    secret: { type: String, required: true }
 });
 
 const EventModel = mongoose.models.Event || mongoose.model<Event>('Event', EventSchema);

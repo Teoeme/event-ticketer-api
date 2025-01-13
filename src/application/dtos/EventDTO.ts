@@ -11,4 +11,5 @@ export interface EventDTO {
     capacity: number;
     ticketTemplates: string[];
     isActive: boolean;
+    secret?: string;
 }

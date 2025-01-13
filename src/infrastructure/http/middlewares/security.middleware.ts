@@ -4,10 +4,7 @@ import { env } from '../../config/env';
 
 // Configuración de Helmet
 export const helmetMiddleware = helmet({
-  contentSecurityPolicy: true,
   crossOriginEmbedderPolicy: true,
-  crossOriginOpenerPolicy: true,
-  crossOriginResourcePolicy: true,
   dnsPrefetchControl: true,
   frameguard: true,
   hidePoweredBy: true,
@@ -17,7 +14,23 @@ export const helmetMiddleware = helmet({
   originAgentCluster: true,
   permittedCrossDomainPolicies: true,
   referrerPolicy: true,
-  xssFilter: true
+  xssFilter: true,
+  crossOriginOpenerPolicy: {
+    policy: 'same-origin'
+  },
+  crossOriginResourcePolicy: {
+    policy: 'cross-origin'
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "https://app-break.webflow.io"],
+      frameSrc: ["'self'", "https://app-break.webflow.io"],
+      imgSrc: ["'self'", "https://app-break.webflow.io", "data:", "blob:"],
+      scriptSrc: ["'self'", "https://app-break.webflow.io"],
+      styleSrc: ["'self'", "https://app-break.webflow.io", "'unsafe-inline'"]
+    }
+  }
 });
 
 // Configuración de Speed Limiter

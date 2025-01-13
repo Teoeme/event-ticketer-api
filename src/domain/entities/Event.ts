@@ -11,4 +11,5 @@ export interface Event {
   capacity: number;
   ticketTemplates: (TicketTemplate | string)[];
   isActive: boolean;
+  tokenSecret: string; // Secreto único por evento
 } 

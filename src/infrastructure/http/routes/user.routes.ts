@@ -53,6 +53,7 @@ export const createUserRouter = (dependencies: {
    *             properties:
    *               name:
    *                 type: string
+   *                 example: John Doe
    *               email:
    *                 type: string
    *               password:

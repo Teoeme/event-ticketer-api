@@ -1,7 +1,9 @@
 import { connectDatabase } from './infrastructure/config/database';
 import { env } from './infrastructure/config/env';
 import { createServer } from './infrastructure/http/server';
+import { MongoClientRepository } from './infrastructure/persistence/mongodb/repositories/MongoClientRepository';
 import { MongoEventRepository } from './infrastructure/persistence/mongodb/repositories/MongoEventRepository';
+import { MongoTicketRepository } from './infrastructure/persistence/mongodb/repositories/MongoTicketRepository';
 import { MongoTicketTemplateRepository } from './infrastructure/persistence/mongodb/repositories/MongoTicketTemplate';
 import { MongoTokenRepository } from './infrastructure/persistence/mongodb/repositories/MongoTokenRepository';
 import { MongoUserRepository } from './infrastructure/persistence/mongodb/repositories/MongoUserRepository';
@@ -17,9 +19,11 @@ const startServer = async () => {
     const tokenRepository = new MongoTokenRepository();
     const eventRepository = new MongoEventRepository();
     const ticketTemplateRepository = new MongoTicketTemplateRepository();
+    const ticketRepository = new MongoTicketRepository();
+    const clientRepository = new MongoClientRepository();
     await initializeDatabase(userRepository);
 
-    const app = createServer({ userRepository, emailService,tokenRepository ,eventRepository,ticketTemplateRepository});
+    const app = createServer({ userRepository, emailService,tokenRepository ,eventRepository,ticketTemplateRepository,ticketRepository,clientRepository});
 
     const server = app.listen(env.port, () => {
       console.log('\x1b[32m%s\x1b[0m', ` Servidor corriendo en ${env.backendUrl}`);

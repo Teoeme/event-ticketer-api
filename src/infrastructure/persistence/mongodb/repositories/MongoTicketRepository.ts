@@ -39,7 +39,15 @@ export class MongoTicketRepository implements ITicketRepository {
         return await TicketModel.find({ clientId });
     }
 
-    async findByTemplateId(templateId: string): Promise<Ticket[]> {
-        return await TicketModel.find({ templateId });
+    async findByEventId(eventId: string): Promise<Ticket[]> {
+        return await TicketModel.find({ eventId });
+    }
+
+    async update(id: string, ticket: Partial<Ticket>): Promise<Ticket> {
+        const updatedTicket = await TicketModel.findByIdAndUpdate(id, ticket, { new: true });
+        if (!updatedTicket) {
+            throw new Error('No se encontró el ticket a actualizar');
+        }
+        return updatedTicket;
     }
 }

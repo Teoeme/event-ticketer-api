@@ -7,5 +7,6 @@ export interface ITicketRepository {
   create(ticket: Omit<Ticket, 'id'>): Promise<Ticket>;
   updateStatus(id: string, status: TicketStatus): Promise<Ticket>;
   findByClientId(clientId: string): Promise<Ticket[]>;
-  findByTemplateId(templateId: string): Promise<Ticket[]>;
+  findByEventId(eventId: string): Promise<Ticket[]>;
+  update(id: string, data: Partial<Ticket>): Promise<Ticket>;
 } 

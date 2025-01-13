@@ -4,9 +4,11 @@ import { ValidationError, ValidationSchema, ValidationService } from '../../../d
 import { ITicketTemplateRepository } from '../../../domain/repositories/ITicketTemplateRepository';
 import { TicketTemplate } from '../../../domain/entities/TicketTemplate';
 import { EventDTO } from '../../dtos/EventDTO';
+import { TokenService } from '../../../domain/services/token/TokenService';
+import { EventTokenService } from '../../../infrastructure/services/token/EventTokenService';
 
 export class CreateEventUseCase {
-  private validationSchema:ValidationSchema<Event> = {
+  private validationSchema:ValidationSchema<EventDTO> = {
     name: {
       required: true,
       type: 'string',
@@ -28,7 +30,7 @@ export class CreateEventUseCase {
     startTime: {
       required: true,
       type: 'date',
-      custom: (value: Date, data: Event) => {
+      custom: (value: Date, data: EventDTO) => {
         const now = new Date();
         const eventDate = new Date(data.date);
         const startDateTime = new Date(value);
@@ -43,7 +45,7 @@ export class CreateEventUseCase {
     endTime: {
       required: true,
       type: 'date',
-      custom: (value: Date, data: Event) => {
+      custom: (value: Date, data: EventDTO) => {
         const startTime = new Date(data.startTime);
         const endTime = new Date(value);
         return endTime > startTime;
@@ -81,15 +83,16 @@ export class CreateEventUseCase {
       // Validar datos
       ValidationService.validate(eventData, this.validationSchema);
 
-      const ticketTemplates = await Promise.all(eventData.ticketTemplates.map(async (ticketTemplate) => {
+      const ticketTemplates = await Promise.all((eventData.ticketTemplates||[]).map(async (ticketTemplate) => {
         const ticketTemplateData = await this.ticketTemplateRepository.findById(ticketTemplate);
-        console.log(ticketTemplateData,'TICKET TEMPLATE DATA');
         if(!ticketTemplateData) throw new Error('Ticket template not found');
         return ticketTemplateData.id;
     }));
 
-      // Crear evento
-      const event = await this.eventRepository.create({...eventData,ticketTemplates});
+    const eventSecret= EventTokenService.generateEventSecret()
+  
+    // Crear evento
+      const event = await this.eventRepository.create({...eventData,ticketTemplates,secret:eventSecret});
       return event;
     } catch (error: any) {
       if (error instanceof ValidationError) {

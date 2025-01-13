@@ -1,5 +1,6 @@
 export enum TicketStatus {
   PENDIENTE = 'PENDIENTE',
+  PAGADO = 'PAGADO',
   UTILIZADO = 'UTILIZADO',
-  ANULADO = 'ANULADO'
+  ANULADO = 'ANULADO',
 } 

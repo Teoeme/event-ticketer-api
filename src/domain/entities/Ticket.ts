@@ -1,4 +1,5 @@
 import { TicketStatus } from "../value-objects/TicketStatus";
+import { TicketEvent } from "../value-objects/TicketEvent";
 import { Entry } from "./Entry";
 
 export interface Ticket {
@@ -12,4 +13,5 @@ export interface Ticket {
   status: TicketStatus;
   entry?: Entry;  // Relación opcional con entrada
   eventId: string;
+  history: TicketEvent[]; // Nuevo campo para el historial
 } 

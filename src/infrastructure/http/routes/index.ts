@@ -8,6 +8,10 @@ import { createEventRouter } from './event.routes';
 import { IEventRepository } from '../../../domain/repositories/IEventRepository';
 import { createTicketTemplateRouter } from './ticketTemplate.routes';
 import { ITicketTemplateRepository } from '../../../domain/repositories/ITicketTemplateRepository';
+import { createTicketRouter } from './ticket.routes';
+import { ITicketRepository } from '../../../domain/repositories/ITicketRepository';
+import { IClientRepository } from '../../../domain/repositories/IClientRepository';
+import { createClientRouter } from './client.routes';
 
 export const createRouter = (dependencies: {
   userRepository: IUserRepository;
@@ -15,6 +19,8 @@ export const createRouter = (dependencies: {
   tokenRepository: ITokenRepository;
   eventRepository: IEventRepository;
   ticketTemplateRepository: ITicketTemplateRepository;
+  ticketRepository: ITicketRepository;
+  clientRepository: IClientRepository;
 }) => {
   const router = Router();
 
@@ -22,6 +28,8 @@ export const createRouter = (dependencies: {
   router.use('/users', createUserRouter(dependencies));
   router.use('/events', createEventRouter(dependencies));
   router.use('/ticket-templates', createTicketTemplateRouter(dependencies));
+  router.use('/tickets', createTicketRouter(dependencies));
+  router.use('/clients', createClientRouter(dependencies));
   
   router.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date() });

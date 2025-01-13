@@ -11,6 +11,8 @@ import { helmetMiddleware, speedLimiter } from './middlewares/security.middlewar
 import { ITokenRepository } from '../../domain/repositories/ITokenRepository';
 import { IEventRepository } from '../../domain/repositories/IEventRepository';
 import { ITicketTemplateRepository } from '../../domain/repositories/ITicketTemplateRepository';
+import { ITicketRepository } from '../../domain/repositories/ITicketRepository';
+import { IClientRepository } from '../../domain/repositories/IClientRepository';
 
 export const createServer = (dependencies: {
   userRepository: IUserRepository;
@@ -18,6 +20,8 @@ export const createServer = (dependencies: {
   tokenRepository: ITokenRepository;
   eventRepository: IEventRepository;
   ticketTemplateRepository: ITicketTemplateRepository;
+  ticketRepository: ITicketRepository;
+  clientRepository: IClientRepository;
 }) => {
   const app = express();
 
