@@ -13,6 +13,7 @@ import { IEventRepository } from '../../domain/repositories/IEventRepository';
 import { ITicketTemplateRepository } from '../../domain/repositories/ITicketTemplateRepository';
 import { ITicketRepository } from '../../domain/repositories/ITicketRepository';
 import { IClientRepository } from '../../domain/repositories/IClientRepository';
+import cors from 'cors';
 
 export const createServer = (dependencies: {
   userRepository: IUserRepository;
@@ -25,6 +26,13 @@ export const createServer = (dependencies: {
 }) => {
   const app = express();
 
+  app.use(cors({
+    origin: env.frontendUrl,
+    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS','PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Range', 'X-Total-Count'],
+    credentials:true
+  }));
   app.use(helmetMiddleware);
   app.use(speedLimiter);
 
