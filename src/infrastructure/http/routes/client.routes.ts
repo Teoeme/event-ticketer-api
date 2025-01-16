@@ -18,14 +18,41 @@ export const createClientRouter = (dependencies: {
      * @openapi
      * /clients:
      *   post:
-     *     summary: Crear un cliente
-     *     tags: [Clientes]
+     *     summary: Create a client
+     *     tags: [Clients]
+     *     security:
+     *       - bearerAuth: []
      *     requestBody:
      *       required: true
      *       content:
      *         application/json:
      *           schema:
-     *             $ref: '#/components/schemas/Client'
+     *             type: object
+     *             required:
+     *               - name
+     *               - documentId
+     *               - birthDate
+     *             properties:
+     *               name:
+     *                 type: string
+     *                 description: Client name
+     *                 example: Juan Perez
+     *               documentId:
+     *                 type: string
+     *                 description: Client documentId
+     *                 example: 12345678
+     *               birthDate:
+     *                 type: string
+     *                 description: Client birthDate
+     *                 example: 1990-01-01
+     *               email:
+     *                 type: string
+     *                 description: Client email
+     *                 example: juanperez@gmail.com
+     *               phone:
+     *                 type: string
+     *                 description: Client phone
+     *                 example: +5491133333333
      */
     router.post('/', authenticate, async (req, res) => {
         try {
@@ -59,12 +86,22 @@ export const createClientRouter = (dependencies: {
         }
     });
 
-    // Buscar cliente por DNI
+    // Search client by documentId
+    /**
+     * @openapi
+     * /clients/search/dni/{documentId}:
+     *   get:
+     *     summary: Search client by documentId
+     *     tags: [Clients]
+     *     security:
+     *       - bearerAuth: []
+     */
     router.get('/search/dni/:documentId', authenticate, async (req, res) => {
         try {
             const client = await dependencies.clientRepository.findByDocumentId(req.params.documentId);
             if (!client) {
-             httpResponses.notFound(res, 'Cliente no encontrado');
+                httpResponses.notFound(res, 'Cliente no encontrado');
+                return
             }
             httpResponses.ok(res, client);
         } catch (error: any) {
@@ -73,6 +110,15 @@ export const createClientRouter = (dependencies: {
     });
 
     // Listar todos los clientes
+    /**
+     * @openapi
+     * /clients:
+     *   get:
+     *     summary: Get all clients
+     *     tags: [Clients]
+     *     security:
+     *       - bearerAuth: []
+     */ 
     router.get('/', authenticate, async (req, res) => {
         try {
             const clients = await dependencies.clientRepository.list();

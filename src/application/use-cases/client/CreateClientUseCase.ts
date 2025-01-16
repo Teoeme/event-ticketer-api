@@ -8,15 +8,17 @@ export class CreateClientUseCase {
       required: true,
       type: 'string',
       minLength: 3,
-      maxLength: 100
+      maxLength: 100,
+      message:"Debe especificar un nombre para el cliente"
     },
     documentId: {
       required: true,
       type: 'string',
       custom: (value: string) => {
-        // Aquí puedes agregar validación específica del DNI
-        return /^\d{8}[A-Z]?$/.test(value) || 'Formato de DNI inválido';
-      }
+        // Validación del DNI: debe tener 7 u 8 dígitos
+        return /^\d{7,8}$/.test(value);
+      },
+      message:"Debe especificar un DNI para el cliente"
     },
     email: {
       type: 'string',
@@ -30,10 +32,8 @@ export class CreateClientUseCase {
     },
     birthDate: {
       type: 'date',
-      custom: (value: Date) => {
-        const age = (new Date().getTime() - new Date(value).getTime()) / (1000 * 60 * 60 * 24 * 365);
-        return age >= 18 || 'El cliente debe ser mayor de edad';
-      }
+      message:"Debe especificar una fecha de nacimiento para el cliente",
+      required:true
     }
   };
 

@@ -24,11 +24,11 @@ export const helmetMiddleware = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      connectSrc: ["'self'", "https://app-break.webflow.io"],
-      frameSrc: ["'self'", "https://app-break.webflow.io"],
-      imgSrc: ["'self'", "https://app-break.webflow.io", "data:", "blob:"],
-      scriptSrc: ["'self'", "https://app-break.webflow.io"],
-      styleSrc: ["'self'", "https://app-break.webflow.io", "'unsafe-inline'"]
+      connectSrc: ["'self'", env.frontendUrl],
+      frameSrc: ["'self'", env.frontendUrl],
+      imgSrc: ["'self'", env.frontendUrl, "data:", "blob:"],
+      scriptSrc: ["'self'", env.frontendUrl],
+      styleSrc: ["'self'", env.frontendUrl, "'unsafe-inline'"]
     }
   }
 });
